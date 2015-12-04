@@ -14,21 +14,24 @@ public class Conexion {
 
 	public static void main(String[] args) {
 		try {
+			String linea;
+			String html="";
+
 			URL url = new URL("http://elpais.com/tag/fecha/ultimahora/");
-			File archivo = new File("/home/matinal/Escritorio/salida.txt");
+			//File archivo = new File("/home/matinal/Escritorio/salida.txt");
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-			BufferedWriter out = new BufferedWriter(new PrintWriter(archivo));
-			String linea;
-			String codigo="";
-			Pattern patron = Pattern.compile("<h2><a title=\"Ver noticia\" href (.*?)\">(.*?)</a></h2>");
+			//BufferedWriter out = new BufferedWriter(new PrintWriter(archivo));
+			Pattern patron = Pattern.compile("<h2><a title=\"Ver noticia\" href=\"(.*?)\">(.*?)</a></h2>");
 			
-			while ((linea=in.readLine())!=null) codigo+= linea;
+			while ((linea=in.readLine())!=null) html+= linea;
 
 				Matcher matcher = null;
-				matcher = patron.matcher(codigo);
-				while(matcher.find())
+				matcher = patron.matcher(html);
+				while(matcher.find()){
 					System.out.println(matcher.group(1));
+					System.out.println(matcher.group(2));					
+				}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
